@@ -1,0 +1,14 @@
+<% for (let i = 0; i < blogcontents.length; i++) { %>
+        <article id="articleno_<%= i %>" class="articles">
+            <% /* 
+            <% if blogtitles[i] == "" { %>
+                <h2 class="blogtitles">BlogPost #<%= i %></h2>
+            <% } else { %>
+            */ %>
+                <h2 class="blogtitles"><%= blogtitles[i] %></h2>
+            <% /* 
+                <% } %>
+            */ %>
+            <p class="blogcontents"><%= blogcontents[i] %></p>
+        </article>
+        <% } %>

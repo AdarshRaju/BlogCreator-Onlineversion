@@ -1,0 +1,227 @@
+<%- include("partials/header.ejs") %>
+
+<h2>Search Results</h2>
+
+<div id="searchresultscontainer">
+    <%  
+
+        
+        if(selpageblogcontents.length>0){
+            console.log("length of selblogcontents container is: " +selpageblogcontents.length);
+            console.log("contents of selblogcontents container is: " +selpageblogcontents);
+            // var sindex = (selpage-1)*ipp;
+        for (let i = 0; i < selpageblogcontents.length; i++) { %>
+       
+        <article id="<%= indexarr[i] %>" class="articles searcharticleresults">
+            
+                <h3 id="blogh#_<%= indexarr[i] %>" class="selpageblogtitles searchheadings" onclick="displayblog(<%= indexarr[i] %>)"><%= selpageblogtitles[i].replace(/<[^>]+>/g, '') %></h3>
+            
+            <p id="blogp#_<%= indexarr[i] %>" class="selpageblogcontents searchblogcontents"><%= selpageblogcontents[i].replace(/<[^>]+>/g, '') %></p>
+           
+        </article>
+        <% } }%>
+</div>
+
+<div id="pagelogiccontainer">
+    <div id="ippcontainer">
+        <label id="ipplabel" for="ippdropdown">Items per page: </label>
+        <select id="ippdropdown" name="ippdropdown">
+            <option value="5" <%= (ipp === 5)? "selected" : "" %> >5</option>
+            <option value="10" <%= (ipp === 10)? "selected" : "" %> >10</option>
+            <option value="20" <%= (ipp === 20)? "selected" : "" %>>20</option>
+            <option value="50" <%= (ipp === 50)? "selected" : "" %>>50</option>
+        </select>
+    </div>
+    <div id="pagenooutercontainer">
+        <button id="jump2first" type="button">&lt;&lt;</button>
+        <button id="prevpage" type="button">&lt;</button>
+        <div id="pagenoinnercontainer">
+
+            <%if (noofpages) {    
+                    if (noofpages<=18) {
+                        // push all pages and return
+                        
+                        
+                        for(let p = 1; p<=noofpages; p++){ %>
+                            <%= console.log("selpage value is: " + selpage); %>
+
+                            
+                            <div class="pagenos <% if(p === selpage) {%>selectedpage<%} else{ %><%} %>" 
+                                id="pageno_<%= p %>" onclick=""><%=p%></div>
+
+                            <%} 
+                        
+                        } else {
+                        if (selpage<9){
+                        // hide first ellipsis, display first 18 pages, display second ellipsis and last item container
+                            for(let p = 1; p<=18; p++){ %>
+
+                                <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+
+                            <%} %>
+                        <div id="lellipsiscontainer">...</div>
+                        <div id="lastpagecontainer"><%=noofpages%></div>
+
+                    
+                        <%}%>
+                        <%if (selpage>=9){
+                            // display first item and first ellipsis, three items before sel page, sel page, 13 items after, display second ellipsis and last item container
+                            if (noofpages > selpage + 13){%>
+                                
+                                <div id="firstpagecontainer">1</div>
+                                <div id="fellipsiscontainer">...</div>
+                                <% for(let p = (selpage-3); p<=(selpage+13); p++){%>
+                                
+                                
+                                
+                                <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+
+                
+                                <%}%>
+
+                                <div id="lellipsiscontainer">...</div>
+                                <div id="lastpagecontainer"><%=noofpages%></div>
+                            <%}
+
+                            if (noofpages <= selpage + 13){
+                                // No need to limit to just 3 items before sel, but display all items before last page, upto 7 items
+                                if ((selpage === noofpages) || (selpage === parseInt(noofpages -1)) || (selpage === parseInt(noofpages -2))) {%>
+                                
+                                    <div id="firstpagecontainer">1</div>
+                                    <div id="fellipsiscontainer">...</div>
+                                    <% for(let p = (noofpages-6); p<=noofpages; p++){ %>
+                                        <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+                                    <%}
+                                    
+                                
+                
+                                }
+                                else{ 
+                                    // remove last ellipsis, display 3 items before sel and line up till the last item
+                                    %>
+                                
+                                    <div id="firstpagecontainer">1</div>
+                                    <div id="fellipsiscontainer">...</div>
+                                    <% for(let p = (selpage-3); p<=noofpages; p++){%>
+                                        <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+                                    <%}%>
+
+                                <%}%>
+
+                            <%}%>
+                        
+                        <%}%>
+                        
+                    <%}%>
+                <%}%>
+        
+
+        </div>
+        <button id="nextpage" type="button">&gt;</button>
+        <button id="jump2last" type="button">&gt;&gt;</button>
+    </div>
+</div>
+
+<script>
+    
+    function fetchnewpage(pg) {
+        var options = {
+                method: 'GET',
+        }
+        fetch('/search?selp='+pg).then(response => {
+            return response.text()
+      
+        }).then(data => {
+        
+            document.body.innerHTML = data;
+            document.querySelectorAll("script").forEach(script =>{
+                if(script){
+                eval(script.textContent);
+                }
+            })
+        }).catch(error => console.error("error fetching particular blog: " + error))
+        ;
+    }
+
+    var pages = [...document.getElementsByClassName("pagenos")];
+    pages.forEach(page =>{
+        page.addEventListener("click", (e) =>{
+            console.log(e.target.textContent+ " page was clicked");
+            var clickedpage = parseInt(e.target.textContent);
+            fetchnewpage(clickedpage);
+        })
+    })
+
+
+    var firstpagecontainer = document.getElementById("firstpagecontainer");
+    var lastpagecontainer = document.getElementById("lastpagecontainer");
+    var jump2first = document.getElementById("jump2first");
+    var prevpage = document.getElementById("prevpage");
+    var nextpage = document.getElementById("nextpage");
+    var jump2last = document.getElementById("jump2last");
+    var ippdropdown = document.getElementById("ippdropdown");
+
+    if(firstpagecontainer){ firstpagecontainer.addEventListener("click", (e) =>{
+        fetchnewpage(1);
+    })}
+
+    jump2first.addEventListener("click", (e) =>{
+        fetchnewpage(1);
+    })
+
+
+    if (lastpagecontainer) { lastpagecontainer.addEventListener("click", (e) =>{
+        fetchnewpage(<%= noofpages %>);
+    })}
+
+    jump2last.addEventListener("click", (e) =>{
+        fetchnewpage(<%= noofpages %>);
+    })
+
+    prevpage.addEventListener("click", (e) =>{
+        if(<%= selpage %> >1){
+        fetchnewpage(<%= selpage %>-1);
+        }
+    })
+
+    nextpage.addEventListener("click", (e) =>{
+        if(<%= selpage %> < <%= noofpages %>){
+        fetchnewpage(<%= selpage %> + 1);
+        }
+    })
+
+    
+
+    function fetchnewipp(nipp) {
+        var options = {
+                method: 'GET',
+        }
+        fetch('/search?ipp='+nipp).then(response => {
+            return response.text()
+      
+        }).then(data => {
+        
+            document.body.innerHTML = data;
+            document.querySelectorAll("script").forEach(script =>{
+                if(script){
+                eval(script.textContent);
+                }
+            })
+        }).catch(error => console.error("error fetching blogs: " + error))
+        ;
+    }
+
+    ippdropdown.addEventListener("change", (e) =>{
+        console.log("New IPP value is: " + e.target.value);
+        fetchnewipp(e.target.value);
+    })
+    
+    
+</script>
+
+
+
+
+
+
+<%- include("partials/footer.ejs") %>

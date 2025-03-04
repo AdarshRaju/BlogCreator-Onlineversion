@@ -1,0 +1,72 @@
+<%- include("partials/header.ejs") %>
+
+<div id="editpagecontainer">
+    <h2 id="editpageheading">Edit <%- seltitle %></h2>
+    <form id="editblogform" method="POST" action="/editsubmit">
+        <input type="hidden" id="editorgartindno" name="editorgartindno" value="<%-artindno%>">
+        <label id="editblogtitletextlabel" for="editblogtitle">Blog Title:</label>
+        <div id="quilledittitle"><%- seltitle %></div>
+        <input id="editblogtitle" type="hidden" name="editblogtitle" placeholder="Enter your blog title here.." ></br></br>
+        <label id="editblogcontenttextlabel" for="editblogcontent">Blog:</label>
+        <div id="quilleditcontent"><%- selcontent %></div>
+        <input id="editblogcontent" type="hidden" rows="10" cols="150" name="editblogcontent" placeholder="Write your blog here.." > </br></br>
+        <input id="editsubmitbutton" type="submit" value="Submit Edited Blog">
+    </form>
+
+</div>
+<script>
+
+    console.log("code was activated inside editform script tag");
+    var editoption1 = {
+        theme: 'bubble',
+        placeholder: "Enter a title for your blog..."
+      };
+
+    var editoption2 = {
+        theme: 'snow',
+        placeholder: "Write your blog here..."
+      };
+
+    var qedittitle = new Quill('#quilledittitle', editoption1);
+    var qeditcontent = new Quill('#quilleditcontent', editoption2);
+    const orgqtborder = document.getElementById("quilledittitle").style.border;
+    const orgqcborder = document.getElementById("quilleditcontent").style.border;
+    console.log("qeditcontent is: " + qeditcontent.root.innerHTML);
+
+
+
+    document.getElementById("editblogform").addEventListener("submit", (e) => {
+        var qtt = qedittitle.getText().trim();
+        var qct = qeditcontent.getText().trim();
+        document.getElementById("quilledittitle").style.border = orgqtborder;
+        document.getElementById("quilleditcontent").style.border = orgqcborder;
+
+        let empty = false;
+
+        if (qtt.length === 0) {
+            empty = true;
+            e.preventDefault();
+            document.getElementById("quilledittitle").style.border = "red 2px solid";
+            alert("A title must be entered");
+            
+        }
+
+        if (qct.length === 0) {
+            empty = true;
+            e.preventDefault();
+            document.getElementById("quilleditcontent").style.border = "red 2px solid";
+            alert("Please enter content for your blog");
+            
+        }
+
+        if (empty) { return; } else{
+        document.getElementById("quilledittitle").style.border = orgqtborder;
+        document.getElementById("quilleditcontent").style.border = orgqcborder;
+        document.getElementById("editblogtitle").value = qedittitle.root.innerHTML;
+        document.getElementById("editblogcontent").value = qeditcontent.root.innerHTML;
+        }
+    })
+
+</script>
+
+<%- include("partials/footer.ejs") %>

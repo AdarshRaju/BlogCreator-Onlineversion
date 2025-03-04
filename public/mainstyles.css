@@ -1,0 +1,426 @@
+/* Variables */
+
+@property --lightcreamcolor{
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #f8f1ee;
+    
+}
+
+/* Items related to main containers are grouped below */
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    font-family: "Nunito", serif;
+    display: grid;
+    border: rgba(0, 128, 0, 0.39) solid 5px;
+    grid-template-areas: 
+    "header" 
+    "main" 
+    "footer";
+    /* position: relative; */
+    grid-template-rows: 15vh auto 15vh;
+    /* grid-template-columns: 100vw; */
+    margin: 0;
+    min-height: 100vh;
+    width: 100vw;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+
+
+header {
+    color: red;
+    
+    /* background-image: url('/images/neon style cityscape vector.webp'); */
+    background-position: top;
+    position: relative;
+    font-family:'Rubik Vinyl', serif;
+    background-color: rgb(186, 234, 234);
+    grid-area: header;
+    border: black solid 5px;
+    /* align-self: center; */
+    /* justify-self: center; */
+    /* min-width: 100%; */
+    text-align: center;
+    
+}
+
+#headerbackgroundcontainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("/images/colorful rect-triangles vector.jpg");
+    background-image: url("/images/neon style cityscape vector square.webp");
+    filter: blur(5px);
+    /* z-index: -1; */
+}
+
+#mainwebsiteheading{
+    position: absolute;
+    left: 30vw;
+
+}
+
+main {
+    position: relative;
+    grid-area: main;
+    background-image: url("/images/colorful rect-triangles vector.jpg");
+    /* background-image: url("/images/neon style cityscape vector square.webp"); */
+    background-size: cover;
+    background-position: bottom;
+    
+    border: black solid 5px;
+    background-color: rgb(232, 223, 214);
+    color: white;
+    /* display: flex;
+    flex-direction: column; */
+    max-width: 100%;
+    /* overflow: hidden; */
+}
+
+#mainbackgroundcontainer {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    filter: blur(5px);
+    z-index: -1;
+    background-image: url("/images/colorful rect-triangles vector.jpg");
+    background-image: url("/images/neon style cityscape vector square.webp");
+    background-size: cover;
+    background-position: bottom;
+}
+
+/* #mainbackgroundcontainer ~ * {
+    position: absolute;
+} */
+
+footer {
+    grid-area: footer;
+    border: black solid 5px;
+    position: relative;
+    
+    /* position:absolute;
+    bottom: 0; */
+    /* width: 100vw;
+    height: 20vh; */
+    /* text-align: center; */
+}
+
+#footerbackgroundcontainer{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    filter:blur(5px);
+    background-image: url("/images/neon style cityscape vector square.webp");
+    background-image: url("/images/colorful rect-triangles vector.jpg");
+    background-image: url("/images/neon style cityscape vector square.webp");
+}
+
+#footertext{
+    position: absolute;
+    color: white;
+}
+
+
+
+/* Items related to the navigation bar are grouped below */
+
+#navigationbox {
+    /* position:absolute; */
+    display: flex;
+    justify-content:flex-start;
+}
+
+a {
+    color: white;
+}
+
+#homelink, #blogslink {
+    margin-left: 5px;
+    text-decoration: none;
+    padding: 5px;
+}
+
+#homelink:hover, #blogslink:hover {
+    background-color: rgba(167, 167, 207, 0.699);
+}
+
+
+
+/* Items related to the main blogs submission form are grouped below */
+
+#homepagecontainer, #editpagecontainer{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20vw;
+    width: 30%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+#blogcontenttextlabel, #editblogcontenttextlabel {
+    vertical-align: top;
+}
+
+#blogtitle, #editblogtitle {
+    align-self: flex-start;
+}
+
+#blogcontent, #editblogcontent {
+    align-self: flex-start;
+}
+
+#submitbutton, #editsubmitbutton {
+    align-self: flex-start;
+    padding: 5px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.43);
+    transition: linear 0.1s padding;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+#submitbutton:hover, #editsubmitbutton:hover {
+    padding: 7px 20px;
+    font-weight:900;
+}
+
+
+#qtitle, #quilledittitle{
+    border: green solid 2px;
+    color: black;
+    min-width: 25vw;
+    width: 50vw;
+    height: 4em;
+    background-color: var(--lightcreamcolor);
+}
+
+#qcontent, #quilleditcontent{
+    border: yellow solid 2px;
+    color: black;
+    width: 50vw;
+    height: 15em;
+    background-color: var(--lightcreamcolor);
+}
+
+.ql-snow {
+    width: 50vw;
+    color: white;
+}
+
+.ql-toolbar {
+    color: white;
+}
+
+
+
+/* Items related to the article items are grouped below */
+article {
+    border: black solid 5px;
+    position: relative;
+    margin-bottom: 5px;
+    margin-right: 15px;
+    margin-left: 20px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+article:hover {
+    background-color: rgb(127, 140, 255);
+}
+
+.hoverboxes {
+    display: none;
+    position:absolute;
+    right:0;
+    bottom:0;
+}
+
+article:hover .hoverboxes{
+    display: inline-flex;
+}
+
+.editbtns:hover, .deletebtns:hover {
+    color: blue;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+#bloglistcontainer, #searchresultscontainer {
+    max-height: 500px;
+    max-width: 70%;
+    margin-left: 10vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* border: rgba(230, 230, 180, 0.811) solid 5px; */
+}
+
+.selpageblogtitles, .selpageblogcontents {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width:90vw;
+    min-width: 0;
+    /* height: 50px; */
+}
+
+.selpageblogtitles {
+    cursor: pointer;
+}
+
+/* Items related to the selected article display page are below */
+
+#articledisplaycontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90vw;
+}
+
+#blogcontent{
+    text-align:justify;
+    justify-self:flex-start;
+    align-self:center;
+}
+
+/* Items related to the page no liner are grouped below */
+
+#pagelogiccontainer{
+    display: flex;
+    margin: 15px 0 15px 15px;
+    /* margin-left: 15px;
+    margin-bottom: 15px; */
+}
+
+#pagenooutercontainer{
+    display: flex;
+    margin-left: 5px;
+}
+
+.pagenos, #firstpagecontainer, #lastpagecontainer {
+    color:blue;
+    cursor: pointer;
+    min-width: max-content;
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.pagenos:hover, #firstpagecontainer:hover, #lastpagecontainer:hover {
+    background-color: #b49181;
+    border: black solid 2px;
+    border-block: double;
+    
+}
+
+.selectedpage{
+    color:black;
+    color:white;
+    text-decoration: underline;
+}
+
+#pagenoinnercontainer{
+    display: flex;
+}
+
+#fellipsiscontainer, #lellipsiscontainer{
+    /* display: none; */
+    margin-left: 5px;
+}
+
+#firstpagecontainer, #lastpagecontainer {
+    /* display: none; */
+    margin-left: 5px;
+}
+
+#jump2first, #prevpage, #nextpage, #jump2last {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+
+
+/* Items related to the searchbar are below */
+
+#searchbarcontainer{
+    position:absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    /* flex-direction: row; */
+}
+
+#searchbarform{
+    display: flex;
+    flex-direction: row;
+}
+
+#searchbar{
+    margin-left: 5px;
+}
+
+#searchsubmit{
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Items related to hoversearch are below */
+#searchhovercontainer{
+    display: none;
+    background: rgb(255, 255, 255);
+    background: black;
+    z-index: 1;
+    max-height: 750px;
+    width: 350px;
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    /* border-bottom: black solid 1px; */
+    /* border-radius: 10px; */
+    /* border: rgb(219, 217, 175) solid 1px; */
+}
+
+.hovsearchresulttitles{
+    cursor: pointer;
+}
+
+.hovsearchresulttitles, .hovsearchresultcontents{
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* border: solid yellow 1px; */
+    width: 100%;
+    margin: 0 5px;
+    margin-right: 50px;
+    padding-right: 5px;
+    /* margin-left: 5px; */
+}
+
+.hovsearchresultarticlecontainers{
+    border: solid black 1px;
+    border-bottom: none;
+    /* height: 100px; */
+}
+
+#hovsearchseemore{
+    cursor: pointer;
+    color:aqua;
+    padding: 0 5px;
+    border: solid black 1px;
+    border-top: none;
+}
+
+/* Items related to main search are below */
+
+.searcharticleresults{
+    background-color: rgb(29, 70, 56);
+}

@@ -1,0 +1,76 @@
+<%- include("partials/header.ejs") %>
+
+<div id="homepagecontainer">
+    <h2 id="homepageheading">Create or edit your Blogs</h2>
+
+    
+    
+    
+    <form id="bloginputform" method="POST" action="/submit">
+        <label id="blogtitletextlabel" for="blogtitle">Blog Title:</label>
+        <div id="qtitle"></div>
+        <input id="blogtitle" type="hidden" name="blogtitle" placeholder="Enter your blog title here.."></br></br>
+        <label id="blogcontenttextlabel" for="blogcontent">Content:</label>
+        <div id="qcontent"></div>
+        <input id="blogcontent" type="hidden" rows="10" cols="150" name="blogcontent" placeholder="Write your blog here.."> </br></br>
+        <input id="submitbutton" type="submit" value="Submit">
+    </form>
+
+</div>
+    <script>
+
+        var option1 = {
+            theme: 'bubble',
+            placeholder: "Enter a title for your blog..."
+          };
+    
+        var option2 = {
+            theme: 'snow',
+            placeholder: "Write your blog here..."
+          };
+    
+        var qtitle = new Quill('#qtitle', option1);
+        var qcontent = new Quill('#qcontent', option2);
+        const orgqtborder = document.getElementById("qtitle").style.border;
+        const orgqcborder = document.getElementById("qcontent").style.border;
+
+        document.getElementById("bloginputform").addEventListener("submit", (e) => {
+            var qtt = qtitle.getText().trim();
+            var qct = qcontent.getText().trim();
+
+            document.getElementById("qtitle").style.border = orgqtborder;
+            document.getElementById("qcontent").style.border = orgqcborder;
+            
+            let empty = false;
+
+            if (qtt.length === 0) {
+                empty = true;
+                e.preventDefault();
+                document.getElementById("qtitle").style.border = "red 2px solid";
+                alert("A title must be entered");
+                
+            }
+            
+
+            if (qct.length === 0) {
+                empty = true;
+                e.preventDefault();
+                document.getElementById("qcontent").style.border = "red 2px solid";
+                alert("Please enter content for your blog");
+                
+            }
+            
+                
+            if (empty) { return; } else{
+            document.getElementById("qtitle").style.border = orgqtborder;
+            document.getElementById("qcontent").style.border = orgqcborder;
+            document.getElementById("blogtitle").value = qtitle.root.innerHTML;
+            document.getElementById("blogcontent").value = qcontent.root.innerHTML;
+            }
+        })
+    
+    </script>
+
+
+
+<%- include("partials/footer.ejs") %>

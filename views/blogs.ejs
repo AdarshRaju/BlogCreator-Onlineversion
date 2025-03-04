@@ -1,0 +1,322 @@
+<%- include("partials/header.ejs") %>
+
+    
+    <h2>Created blogs</h2>
+
+    <div id="bloglistcontainer">
+        <%  
+
+        
+        if(selpageblogcontents.length>0){
+            console.log("length of selblogcontents container is: " +selpageblogcontents.length);
+            console.log("contents of selblogcontents container is: " +selpageblogcontents);
+            var sindex = (selpage-1)*ipp;
+        for (let i = 0; i < selpageblogcontents.length; i++) { %>
+       
+        <article id="articleno_<%= sindex+i+1 %>" class="articles">
+            
+                <h3 id="blogh#_<%= sindex+i+1 %>" class="selpageblogtitles" onclick="displayblog(<%= sindex+i %>)"><%= selpageblogtitles[i].replace(/<[^>]+>/g, '') %></h3>
+            
+            <p id="blogp#_<%= sindex+i+1 %>" class="selpageblogcontents"><%= selpageblogcontents[i].replace(/<[^>]+>/g, '') %></p>
+            <div id="hoverbox#_<%= sindex+i+1 %>" class="hoverboxes" >
+                <div id="editbtn#_<%= sindex+i+1 %>" class="editbtns" onclick="fetchedit(<%= sindex+i %>)">Edit</div>
+                |<div id="deletebtn#_<%= sindex+i+1 %>" class="deletebtns" onclick="fetchdel(<%= sindex+i %>)">Delete</div>
+            </div>
+        </article>
+        <% } }%>
+    </div>
+
+    <div id="pagelogiccontainer">
+        <div id="ippcontainer">
+            <label for="ippdropdown" id="ipplabel">Items per page: </label>
+            <select id="ippdropdown" name="ippdropdown" >
+                <option value="5" <%= (ipp === 5)? "selected" : "" %>>5</option>
+                <option value="10" <%= (ipp === 10)? "selected" : "" %>>10</option>
+                <option value="20"<%= (ipp === 20)? "selected" : "" %>>20</option>
+                <option value="50"<%= (ipp === 50)? "selected" : "" %>>50</option>
+            </select>
+        </div>
+        <div id="pagenooutercontainer">
+            <button id="jump2first" type="button">&lt;&lt;</button>
+            <button id="prevpage" type="button">&lt;</button>
+            <div id="pagenoinnercontainer">
+                
+                <%if (noofpages) {    
+                    if (noofpages<=18) {
+                        // push all pages and return
+                        
+                        
+                        for(let p = 1; p<=noofpages; p++){ %>
+                            <%= console.log("selpage value is: " + selpage); %>
+
+                            
+                            <div class="pagenos <% if(p === selpage) {%>selectedpage<%} else{ %><%} %>" 
+                                id="pageno_<%= p %>" onclick=""><%=p%></div>
+
+                            <%} 
+                        
+                        } else {
+                        if (selpage<9){
+                        // hide first ellipsis, display first 18 pages, display second ellipsis and last item container
+                            for(let p = 1; p<=18; p++){ %>
+
+                                <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+
+                            <%} %>
+                        <div id="lellipsiscontainer">...</div>
+                        <div id="lastpagecontainer"><%=noofpages%></div>
+
+                    
+                        <%}%>
+                        <%if (selpage>=9){
+                            // display first item and first ellipsis, three items before sel page, sel page, 13 items after, display second ellipsis and last item container
+                            if (noofpages > selpage + 13){%>
+                                
+                                <div id="firstpagecontainer">1</div>
+                                <div id="fellipsiscontainer">...</div>
+                                <% for(let p = (selpage-3); p<=(selpage+13); p++){%>
+                                
+                                
+                                
+                                <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+
+                
+                                <%}%>
+
+                                <div id="lellipsiscontainer">...</div>
+                                <div id="lastpagecontainer"><%=noofpages%></div>
+                            <%}
+
+                            if (noofpages <= selpage + 13){
+                                // No need to limit to just 3 items before sel, but display all items before last page, upto 7 items
+                                if ((selpage === noofpages) || (selpage === parseInt(noofpages -1)) || (selpage === parseInt(noofpages -2))) {%>
+                                
+                                    <div id="firstpagecontainer">1</div>
+                                    <div id="fellipsiscontainer">...</div>
+                                    <% for(let p = (noofpages-6); p<=noofpages; p++){ %>
+                                        <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+                                    <%}
+                                    
+                                
+                
+                                }
+                                else{ 
+                                    // remove last ellipsis, display 3 items before sel and line up till the last item
+                                    %>
+                                
+                                    <div id="firstpagecontainer">1</div>
+                                    <div id="fellipsiscontainer">...</div>
+                                    <% for(let p = (selpage-3); p<=noofpages; p++){%>
+                                        <div class="pagenos <%= (p === selpage)? "selectedpage" : "" %>" id="pageno_<%= p %>"><%=p%></div>
+                                    <%}%>
+
+                                <%}%>
+
+                            <%}%>
+                        
+                        <%}%>
+                        
+                    <%}%>
+                <%}%>
+                
+            </div>
+
+            <button id="nextpage" type="button">&gt;</button>
+            <button id="jump2last" type="button">&gt;&gt;</button>
+
+
+        </div>
+    </div>
+
+    <script> 
+    
+    var editbtns = document.getElementsByClassName('editbtns');
+    console.log(editbtns); 
+    
+
+
+    // var fetchedit = fetch('/edit', options);
+
+
+    // function displayblog(ind) {
+
+
+    //     var options = {
+    //         method: 'GET'
+    //     }
+    //     fetch(`/displayblog?ind=`+ind, options)
+    //     .then(response => {
+    //         return response.text()
+    //     }
+
+    //     ).then(data => {
+    //         document.body.innerHTML = data;
+            
+    //     }).catch(error => console.error("error fetching particular blog: " + error))
+
+        
+    // }
+
+
+    function fetchedit(ind) {
+
+        var options = {
+            method: 'POST',
+            headers: {
+                    'Content-Type': 'application/json'
+                    },
+            body: 
+                    JSON.stringify( {articleind: ind})
+            
+        }
+
+        fetch('/edit', options)
+        .then(response => {
+            return response.text()
+            // window.location.href = '/edit';
+            // window.location.href = '/edit';
+        }).then(data => {
+            // console.log('editresponse', data);
+            // window.location.href = '/edit';
+            document.body.innerHTML = data;
+            document.querySelectorAll("script").forEach(script =>{
+                if(script){
+                eval(script.textContent);
+                }
+            })
+        }).catch(error => console.error("error fetching particular blog: " + error))
+        ;
+    }
+    
+    function fetchdel(ind) {
+        var options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' 
+                        },
+                body: JSON.stringify({articleind: ind})
+        }
+
+        if (confirm("Are you sure you want to delete this blog?") == true) {
+            fetch("/delete", options)
+            .then(response => {
+            
+            if(response.ok) {
+                // console.log("delete response received as: " + response.text());
+                window.location.href = response.url;
+            }
+            else {console.log("Delete request not sent")}
+            }
+            )
+
+            .catch(error =>
+                console.error("The error during deletion: ", error)
+            )
+        }
+
+    }
+
+
+  
+    // #region The page no liner logic is below
+    function fetchnewpage(pg) {
+        var options = {
+                method: 'GET',
+        }
+        fetch('/blogs?selp='+pg).then(response => {
+            return response.text()
+      
+        }).then(data => {
+        
+            document.body.innerHTML = data;
+            document.querySelectorAll("script").forEach(script =>{
+                if(script){
+                eval(script.textContent);
+                }
+            })
+        }).catch(error => console.error("error fetching particular blog: " + error))
+        ;
+    }
+
+    var pages = [...document.getElementsByClassName("pagenos")];
+    pages.forEach(page =>{
+        page.addEventListener("click", (e) =>{
+            console.log(e.target.textContent+ " page was clicked");
+            var clickedpage = parseInt(e.target.textContent);
+            fetchnewpage(clickedpage);
+        })
+    })
+
+
+    var firstpagecontainer = document.getElementById("firstpagecontainer");
+    var lastpagecontainer = document.getElementById("lastpagecontainer");
+    var jump2first = document.getElementById("jump2first");
+    var prevpage = document.getElementById("prevpage");
+    var nextpage = document.getElementById("nextpage");
+    var jump2last = document.getElementById("jump2last");
+    var ippdropdown = document.getElementById("ippdropdown");
+
+    if(firstpagecontainer){ firstpagecontainer.addEventListener("click", (e) =>{
+        fetchnewpage(1);
+    })}
+
+    jump2first.addEventListener("click", (e) =>{
+        fetchnewpage(1);
+    })
+
+
+    if (lastpagecontainer) { lastpagecontainer.addEventListener("click", (e) =>{
+        fetchnewpage(<%= noofpages %>);
+    })}
+
+    jump2last.addEventListener("click", (e) =>{
+        fetchnewpage(<%= noofpages %>);
+    })
+
+    prevpage.addEventListener("click", (e) =>{
+        if(<%= selpage %> >1){
+        fetchnewpage(<%= selpage %>-1);
+        }
+    })
+
+    nextpage.addEventListener("click", (e) =>{
+        if(<%= selpage %> < <%= noofpages %>){
+        fetchnewpage(<%= selpage %> + 1);
+        }
+    })
+
+    
+
+    function fetchnewipp(nipp) {
+        var options = {
+                method: 'GET',
+        }
+        fetch('/blogs?ipp='+nipp).then(response => {
+            return response.text()
+      
+        }).then(data => {
+        
+            document.body.innerHTML = data;
+            document.querySelectorAll("script").forEach(script =>{
+                if(script){
+                eval(script.textContent);
+                }
+            })
+        }).catch(error => console.error("error fetching blogs: " + error))
+        ;
+    }
+
+    ippdropdown.addEventListener("change", (e) =>{
+        console.log("New IPP value is: " + e.target.value);
+        fetchnewipp(e.target.value);
+    })
+
+    //#endregion The page no liner logic
+
+    </script>
+
+
+
+    <script src="test.js"></script>
+
+<%- include("partials/footer.ejs") %>
