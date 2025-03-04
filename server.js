@@ -161,7 +161,7 @@ app.post("/submit", (req, res) => {
     var blogcontent = sanitizeHtml(req.body["blogcontent"]);
     
     blogcontents.push(blogcontent);
-    fs.appendFile('Database/test.txt', blogtitle + blogcontent, (err) => {if (err) {console.error(error)}});
+    
     
     
     res.redirect("/blogs");
