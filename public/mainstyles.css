@@ -248,6 +248,10 @@ article:hover .hoverboxes{
     cursor: pointer;
 }
 
+#createdblogsheading{
+    margin-left: 1.5em;
+}
+
 /* Items related to the selected article display page are below */
 
 #articledisplaycontainer{
@@ -262,6 +266,8 @@ article:hover .hoverboxes{
     justify-self:flex-start;
     align-self:center;
 }
+
+
 
 /* Items related to the page no liner are grouped below */
 
@@ -316,6 +322,8 @@ article:hover .hoverboxes{
     cursor: pointer;
 }
 
+
+
 /* Items related to the navigation bar are grouped below */
 
 #navandsearchcontainer{
@@ -333,14 +341,23 @@ a {
     color: white;
 }
 
-#homelink, #blogslink {
+#homelink, #blogslink, #contactlink {
     margin-left: 5px;
     text-decoration: none;
     padding: 5px;
 }
 
-#homelink:hover, #blogslink:hover {
+#homelink:hover, #blogslink:hover, #contactlink:hover {
     background-color: rgba(167, 167, 207, 0.699);
+}
+
+/* Items related to the contact page */
+
+#contactmaincontainer{
+    margin-left: 2em;
+    max-width: 50vw;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Items related to the searchbar are below */
