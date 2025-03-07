@@ -18,24 +18,28 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <header>
-        <div id="headerbackgroundcontainer"></div>
+        
+        
         <h1 id="mainwebsiteheading">Blog and Memo Storage</h1>
+        
     </header>
     <main>
-        <div id="mainbackgroundcontainer"></div>
-        <nav id="navigationbox">
-            <a id="homelink" href="/">Home</a>
-            <a id="blogslink" href="/blogs">Blogs</a>
-        </nav>
+        <div id="navandsearchcontainer">
+            
+            <nav id="navigationbox">
+                <a id="homelink" href="/">Home</a>
+                <a id="blogslink" href="/blogs">Blogs</a>
+            </nav>
 
-        <div id="searchbarcontainer">
-            <form id="searchbarform" method="POST">
-            <label for="searchbar">Search: </label>
-            <input name="searchbar" id="searchbar">
-            <button id="searchsubmit" type="button">
-                <img src="searchicon.svg" alt="searchicon" height="20" width="20">
-            </button>
-            </form>
+            <div id="searchbarcontainer">
+                <form id="searchbarform" method="POST">
+                <label for="searchbar">Search: </label>
+                <input name="searchbar" id="searchbar">
+                <button id="searchsubmit" type="button">
+                    <img src="searchicon.svg" alt="searchicon" height="20" width="20">
+                </button>
+                </form>
+            </div>
         </div>
 
         <div id="searchhovercontainer">
@@ -49,14 +53,11 @@
             var searchsubmit = document.getElementById("searchsubmit");
 
             searchbar.addEventListener("focus", (e) =>{
-                // if(searchbar.value != ""){
+                
                 searchhovercontainer.style.display = "block";
-                // }
+                
             })
-            // searchbar.addEventListener("blur", (e) =>{
-            //     console.log("The blur was triggered by: " + e.relatedTarget);
-            //     searchhovercontainer.style.display = "none";
-            // })
+           
 
             document.addEventListener("click", (e) => {
                 if(!searchhovercontainer.contains(e.target) && e.target !== searchbar) {
