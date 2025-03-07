@@ -113,7 +113,8 @@ footer {
     text-align: center;
     margin:0;
     align-self: center;
-    padding-top: 2em;
+    padding-top: 2.5em;
+    text-shadow: rgba(0, 0, 0, 0.415) 7px 7px 5px;
 }
 
 
