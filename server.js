@@ -145,6 +145,11 @@ app.get("/blogs", (req, res) => {
     
 }
 )
+
+app.get("/contact", (req, res) => {
+    res.render("Contact.ejs")
+}
+)
 // #endregion Routing the links from the navigation bar in header
 
 // #region blog Creation logic
@@ -199,7 +204,7 @@ app.post("/editsubmit", (req, res) => {
 app.post("/delete", (req, res) => {
     var delindex = sanitizeHtml(req.body["articleind"]);
     console.log("delete was clicked on article index: " + delindex);
-    // blogcontents[delindex] = "Deleted Post # " + (parseInt(delindex) + 1);
+   
     blogtitles.splice(delindex,1);
     blogcontents.splice(delindex,1);
 
